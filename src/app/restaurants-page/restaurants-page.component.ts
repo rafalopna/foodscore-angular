@@ -2,65 +2,49 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Restaurant } from '../interfaces/restaurant';
 import { FormsModule } from '@angular/forms';
+import { RestaurantFormComponent } from '../restaurant-form/restaurant-form.component';
+import { RestaurantCardComponent } from '../restaurant-card/restaurant-card.component';
+import { RestaurantFilterPipe } from '../pipes/restaurant-filter.pipe';
 
 @Component({
   selector: 'fs-restaurants-page',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RestaurantFormComponent,
+    RestaurantCardComponent,
+    RestaurantFilterPipe
+  ],
   templateUrl: './restaurants-page.component.html',
   styleUrls: ['./restaurants-page.component.css']
 })
 export class RestaurantsPageComponent {
 
-  restaurants: Restaurant[] = [];
+  filterSearch = '';
+  onlyOpen = false;
 
-  newRestaurant: Restaurant;
-
-  readonly days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  daysOpen: boolean[] = (new Array(7)).fill(true);
-  today = new Date(Date.now()).toDateString().split(" ")[0];
-  weekDay: number = this.days.indexOf(this.today);
-
-  imageName = '';
-
-  constructor() {
-    this.newRestaurant = this.resetRestaurant();
-  }
-
-  resetRestaurant(): Restaurant {
-    return {
-      name: '',
-      image: '',
-      cuisine: '',
-      description: '',
-      phone: '',
-      daysOpen: []
-    };
-  }
-
-  changeImage(fileInput: HTMLInputElement) {
-    if(!fileInput.files || fileInput.files.length === 0)
+  restaurants: Restaurant[] = [
     {
-      return;
+      name: 'This is Restaurant',
+      image: '/assets/ejemplo.jpg',
+      cuisine: 'Something',
+      description: 'Write a description',
+      phone: '123456789',
+      daysOpen: ['0','1','2','3','4','5','6']
     }
+  ];
 
-    const reader: FileReader = new FileReader();
-    reader.readAsDataURL(fileInput.files[0]);
-
-    reader.addEventListener('loadend', () => {
-      this.newRestaurant.image = reader.result as string;
-    });
+  addRestaurant(restaurant: Restaurant) {
+    this.restaurants = [...this.restaurants,restaurant];
   }
 
-  addRestaurant() {
-    this.newRestaurant.daysOpen = this.daysOpen.map((open,i) => open ? String(i) : '').filter(day => day !== '');
-    this.restaurants.push(this.newRestaurant);
+  onDeleted(restaurant: Restaurant) {
+    this.restaurants = this.restaurants.filter(r => r !== restaurant);
+  }
 
-    this.newRestaurant = this.resetRestaurant();
-    this.daysOpen = (new Array(7)).fill(true);
-
-    this.imageName = '';
-
+  toggleOnlyOpen() {
+    this.onlyOpen = !this.onlyOpen;
   }
 
 }

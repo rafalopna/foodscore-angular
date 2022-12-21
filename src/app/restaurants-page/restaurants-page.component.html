@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <title>Exercise 7</title>
+  <title>Exercise 8</title>
   <meta charset="UTF-8">
 </head>
 
@@ -13,81 +13,29 @@
   </nav>
 
   <div class="container">
-    <form (ngSubmit)="addRestaurant()" action="#" class="mt-4" id="newRestaurant" novalidate>
-      <div class="mb-3">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" name="name" placeholder="Enter name" [(ngModel)]="newRestaurant.name">
-        <div class="invalid-feedback">Name is required and can only contain letters and spaces.</div>
-      </div>
-      <div class="mb-3">
-        <label for="description">Description</label>
-        <textarea class="form-control" id="description" name="description" rows="3" placeholder="Description" [(ngModel)]="newRestaurant.description"></textarea>
-        <div class="invalid-feedback">Description is required.</div>
-      </div>
-      <div class="mb-3">
-        <label for="cuisine">Cuisine</label>
-        <input type="text" class="form-control" name="cuisine" id="cuisine" placeholder="Cuisine" [(ngModel)]="newRestaurant.cuisine">
-        <div class="invalid-feedback">Cuisine is required.</div>
-      </div>
-      <p>Opening days</p>
-      <div class="mb-3">
-        <div class="form-check form-check-inline" *ngFor="let day of days; let i = index">
-          <input type="checkbox" class="custom-control-input" id="checkDay{{i}}" name="days" [(ngModel)]="daysOpen[i]">
-          <label class="custom-control-label ms-2" for="checkDay{{i}}">{{day}}</label>
-        </div>
-        <div class="text-danger d-none" id="daysError"><small>You must choose at least 1 day.</small></div>
-      </div>
-      <div class="mb-3">
-        <label for="phone">Phone number</label>
-        <input type="text" class="form-control" id="phone" name="phone" pattern="(\+?[0-9]2 ?)?[0-9]{9}"
-          placeholder="Phone number" [(ngModel)]="newRestaurant.phone">
-        <div class="invalid-feedback">Phone must have 9 numbers.</div>
-      </div>
-      <div class="mb-3">
-        <label for="image">Main photo</label>
-        <input type="file" #fileImage class="form-control" id="image" name="image" (change)="changeImage(fileImage)" [(ngModel)]="imageName">
-        <div class="invalid-feedback">An image is required.</div>
-      </div>
-      <img [src]="newRestaurant.image" [ngClass]="{'d-none': !newRestaurant.image}" alt="" id="imgPreview" class="img-thumbnail mb-3">
 
-      <div>
-        <button type="submit" class="btn btn-primary">Create</button>
-      </div>
-    </form>
+    <fs-restaurant-form (insert)="addRestaurant($event)"></fs-restaurant-form>
 
-    <div id="placesContainer" class="mb-4 mt-4 row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4" *ngIf="restaurants && restaurants.length; else noRestaurants">
-      <div class="col" *ngFor="let restaurant of restaurants;">
-        <div class="card h-100 shadow">
-          <img class="card-img-top" [src]="restaurant.image">
-          <div class="card-body">
-            <h4 class="card-title">{{restaurant.name}}</h4>
-            <p class="card-text">{{restaurant.description}}</p>
-            <div class="card-text">
-              <small class="text-muted">
-                <strong>Opens: </strong>
-                <span *ngFor="let day of restaurant.daysOpen">
-                  {{days[+day]}}
-                </span>
-              </small>
-              <span class="badge ms-2"
-                [ngClass]="{ 'bg-success': restaurant.daysOpen.indexOf(weekDay.toString()) >= 0, 'bg-danger': restaurant.daysOpen.indexOf(weekDay.toString()) < 0 }">
-                {{ restaurant.daysOpen.indexOf(weekDay.toString()) >= 0 ? "Open" : "Close" }}
-              </span>
-            </div>
-            <div class="card-text">
-              <small class="text-muted">
-                <strong>Phone: </strong>{{restaurant.phone}}
-              </small>
-            </div>
-          </div>
-          <div class="card-footer">
-            <small class="text-muted">{{restaurant.cuisine}}</small>
-          </div>
-        </div>
-      </div>
+    <hr class="mt-4 mb-4">
+
+    <div>
+      <nav class="navbar navbar-light bg-light justify-content-between mt-3">
+        <ul class="nav nav-pills col-auto ms-3">
+          <li class="nav-item">
+            <a class="nav-link" (click)="toggleOnlyOpen()" [ngClass]="{'active': onlyOpen}">Show open</a>
+          </li>
+        </ul>
+        <form class="container-fluid col">
+          <input class="form-control" type="text" name="search" placeholder="Search" aria-label="Search" [(ngModel)]="filterSearch">
+        </form>
+      </nav>
+    </div>
+
+    <div id="placesContainer" class="mb-4 mt-2 row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4" *ngIf="restaurants && restaurants.length; else noRestaurants">
+      <fs-restaurant-card [restaurant]="restaurant" *ngFor="let restaurant of restaurants | restaurantFilter : filterSearch : onlyOpen" (deleted)="onDeleted(restaurant)" ></fs-restaurant-card>
     </div>
     <ng-template #noRestaurants>
-      <p class="mt-4" >There are no restaurants to show</p>
+      <p class="mt-4">There are no restaurants to show</p>
     </ng-template>
   </div>
 
@@ -95,3 +43,5 @@
 </body>
 
 </html>
+
+
