@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 
-import { AppComponent } from './app.component';
-import { RestaurantsPageComponent } from "./restaurants-page/restaurants-page.component";
+import { RestaurantsPageComponent } from "./restaurants/restaurants-page/restaurants-page.component";
 
 @NgModule({
     declarations: [
-        AppComponent
-    ],
+  ],
     providers: [],
-    bootstrap: [AppComponent],
+    bootstrap: [],
     imports: [
         BrowserModule,
-        RestaurantsPageComponent
+        RestaurantsPageComponent,
+        RouterModule
     ]
 })
 export class AppModule { }

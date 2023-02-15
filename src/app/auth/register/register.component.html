@@ -1,0 +1,97 @@
+<form (ngSubmit)="registerUser()" [formGroup]="regForm" action="#" id="form-register" class="mt-4" method="POST" role="form">
+  <legend>Create an account</legend>
+  <div class="mb-3">
+    <label for="nombre">Name:</label>
+    <input
+      type="text"
+      class="form-control"
+      id="name"
+      name="name"
+      placeholder="Name"
+      formControlName="name"
+      [ngClass]="validClasses(nameControl, 'is-valid', 'is-invalid')"/>
+    <div *ngIf="nameControl.errors?.['required'] && nameControl.touched"
+      class="invalid-feedback">Name is required.</div>
+  </div>
+  <div class="mb-3">
+    <label for="correo">Email:</label>
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      name="email"
+      placeholder="Email"
+      formControlName="email"
+      [ngClass]="validClasses(emailControl,'is-valid','is-invalid')"/>
+    <div *ngIf="emailControl.errors?.['required'] && emailControl.touched"
+      class="invalid-feedback">Email is required.</div>
+  </div>
+  <div class="mb-3">
+    <label for="correo">Repeat Email:</label>
+    <input
+      type="email"
+      class="form-control"
+      id="email2"
+      name="email2"
+      placeholder="Email"
+      formControlName="email2"
+      [ngClass]="validClasses(email2Control,'is-valid','is-invalid')"/>
+    <div *ngIf="email2Control.errors?.['required'] && email2Control.touched"
+      class="invalid-feedback">Email repeat is required.</div>
+  </div>
+  <div class="mb-3">
+    <label for="password">Password:</label>
+    <input
+      type="password"
+      class="form-control"
+      id="password"
+      name="password"
+      placeholder="Password"
+      formControlName="password"
+      [ngClass]="validClasses(passwordControl,'is-valid','is-invalid')" />
+    <div *ngIf="passwordControl.errors?.['required'] && passwordControl.touched"
+      class="invalid-feedback">Password is required.</div>
+  </div>
+  <div class="form-row">
+    <div class="mb-3 col">
+      <label for="lat">Latitude:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="lat"
+        name="lat"
+        placeholder="Geolocating..."
+        formControlName="lat"
+        />
+    </div>
+    <div class="mb-3 col">
+      <label for="lng">Longitude:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="lng"
+        name="lng"
+        placeholder="Geolocating..."
+        formControlName="lng"
+         />
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="image">Avatar image</label>
+    <input
+      type="file"
+      #fileImage
+      class="form-control"
+      id="avatar"
+      name="avatar"
+      (change)="changeImage(fileImage)"
+      formControlName="imageForm"
+      [ngClass]="validClasses(imageControl,'is-valid','is-invalid')"/>
+    <div class="invalid-feedback">Image is required.</div>
+  </div>
+  <img [src]="newUser.avatar" [ngClass]="{'d-none': !newUser.avatar}" alt="" id="imgPreview" class="img-thumbnail mb-3" />
+
+  <p class="text-danger" id="errorInfo"></p>
+  <a class="btn btn-secondary m-1" href="login.html" role="button">Go back</a>
+  <button type="submit" class="btn btn-primary m-1">Create account</button>
+</form>

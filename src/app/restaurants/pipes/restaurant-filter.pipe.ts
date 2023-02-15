@@ -11,7 +11,7 @@ export class RestaurantFilterPipe implements PipeTransform {
 
     const filter = filterBy ? filterBy.toLocaleLowerCase() : null;
     const today = new Date().getDay();
-    
+
     if(onlyOpen) {
 
       restaurants = restaurants.filter(rest => rest.daysOpen.includes(today.toString()));

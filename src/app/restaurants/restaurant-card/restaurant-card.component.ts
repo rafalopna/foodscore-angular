@@ -1,11 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Restaurant } from '../interfaces/restaurant';
 
 @Component({
   selector: 'fs-restaurant-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    RouterLink
+  ],
   templateUrl: './restaurant-card.component.html',
   styleUrls: ['./restaurant-card.component.css']
 })
@@ -16,6 +20,7 @@ export class RestaurantCardComponent {
   weekDay: number = this.days.indexOf(this.today);
   daysOpen: boolean[] = (new Array(7)).fill(true);
   @Input() restaurant!: Restaurant;
+  @Input() isDetail!: boolean;
 
   @Output() deleted = new EventEmitter<void>();
 
@@ -23,5 +28,4 @@ export class RestaurantCardComponent {
   deleteRestaurant() {
     this.deleted.emit();
   }
-
 }
