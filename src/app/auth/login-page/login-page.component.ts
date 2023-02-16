@@ -7,6 +7,7 @@ import { Title } from '@angular/platform-browser';
 import { AuthService } from '../services/auth-service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { GoogleLoginDirective } from 'src/app/google-login/google-login.directive';
 
 @Component({
   selector: 'fs-login-page',
@@ -16,6 +17,7 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons';
     FormsModule,
     ReactiveFormsModule,
     OneCheckedDirective,
+    GoogleLoginDirective,
     FontAwesomeModule
   ],
   templateUrl: './login-page.component.html',
@@ -100,7 +102,7 @@ export class LoginPageComponent implements OnInit{
     console.log(user.getBasicProfile().getName());
     console.log(user.getBasicProfile().getEmail());
     console.log(user.getBasicProfile().getImageUrl());
-    }
+  }
 
   validClasses(control: FormControl, validClass: string, errorClass: string) {
     return {

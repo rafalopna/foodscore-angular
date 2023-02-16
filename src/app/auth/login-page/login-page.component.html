@@ -23,7 +23,7 @@
      class="invalid-feedback">Password is required.</div>
     <button class="btn btn-lg btn-primary btn-block" type="submit">log in</button>
   </form>
-  <button appGoogleLogin type="button" class="btn btn-danger" (loginOk)="loggedGoogle()">
+  <button fsGoogleLogin type="button" class="btn btn-danger" (loginOk)="loggedGoogle($event)">
     <fa-icon [icon]="['fab','google']"></fa-icon>
     Login with Google
   </button>
