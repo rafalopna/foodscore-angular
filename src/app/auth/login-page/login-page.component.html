@@ -23,8 +23,17 @@
      class="invalid-feedback">Password is required.</div>
     <button class="btn btn-lg btn-primary btn-block" type="submit">log in</button>
   </form>
-  <button fsGoogleLogin type="button" class="btn btn-danger" (loginOk)="loggedGoogle($event)">
-    <fa-icon [icon]="['fab','google']"></fa-icon>
-    Login with Google
-  </button>
+
+  <div class="m-1">
+    <button fsGoogleLogin type="button" class="btn btn-danger btn-lg btn-block" (loginOk)="loggedGoogle($event)">
+      <fa-icon [icon]="icons.faGoogle"></fa-icon>
+      Login with Google
+    </button>
+  </div>
+  <div class="m-1">
+    <button fsFbLogin [scopes]="['email', 'public_profile']" class="btn btn-primary btn-lg btn-block" (loginOk)="loggedFacebook($event)" (loginError)="showError($event)">
+      <fa-icon [icon]="icons.faFacebook"></fa-icon>
+      Facebook
+    </button>
+  </div>
 </div>

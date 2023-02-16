@@ -6,8 +6,9 @@ import { UserLogin } from '../interfaces/user';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from '../services/auth-service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { faGoogle, faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { GoogleLoginDirective } from 'src/app/google-login/google-login.directive';
+import { FbLoginDirective } from 'src/app/facebook-login/fb-login.directive';
 
 @Component({
   selector: 'fs-login-page',
@@ -18,6 +19,7 @@ import { GoogleLoginDirective } from 'src/app/google-login/google-login.directiv
     ReactiveFormsModule,
     OneCheckedDirective,
     GoogleLoginDirective,
+    FbLoginDirective,
     FontAwesomeModule
   ],
   templateUrl: './login-page.component.html',
@@ -25,7 +27,7 @@ import { GoogleLoginDirective } from 'src/app/google-login/google-login.directiv
 })
 export class LoginPageComponent implements OnInit{
 
-  google = faGoogle;
+  icons = { faGoogle, faFacebook };
 
   user!: UserLogin;
 
@@ -102,6 +104,14 @@ export class LoginPageComponent implements OnInit{
     console.log(user.getBasicProfile().getName());
     console.log(user.getBasicProfile().getEmail());
     console.log(user.getBasicProfile().getImageUrl());
+  }
+
+  loggedFacebook(resp: fb.StatusResponse) {
+    console.log(resp.authResponse.accessToken);
+  }
+
+  showError(error: any) {
+    console.error(error);
   }
 
   validClasses(control: FormControl, validClass: string, errorClass: string) {
