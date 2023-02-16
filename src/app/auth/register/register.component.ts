@@ -31,8 +31,8 @@ export class RegisterComponent implements OnInit{
   emailControl!: FormControl<string>;
   email2Control!: FormControl<string>;
   passwordControl!: FormControl<string>;
-  latControl!: FormControl<string>;
-  lngControl!: FormControl<string>;
+  latControl!: FormControl<number>;
+  lngControl!: FormControl<number>;
   imageControl!: FormControl<string>;
 
   constructor(
@@ -70,11 +70,11 @@ export class RegisterComponent implements OnInit{
       Validators.required
     ])
 
-    this.latControl = this.fb.control('', [
+    this.latControl = this.fb.control(0, [
       Validators.required
     ])
 
-    this.lngControl = this.fb.control('', [
+    this.lngControl = this.fb.control(0, [
       Validators.required
     ])
 
@@ -105,8 +105,6 @@ export class RegisterComponent implements OnInit{
     this.newUser.name = this.nameControl.value;
     this.newUser.email = this.emailControl.value;
     this.newUser.password = this.passwordControl.value;
-    this.newUser.lat = 0.372453452;
-    this.newUser.lng = -0.6553454;
 
     this.authService.addNewUser(this.newUser)
     .subscribe({

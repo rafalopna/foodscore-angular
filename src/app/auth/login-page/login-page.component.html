@@ -1,10 +1,26 @@
 <div class="text-center">
-  <form class="form-signin" novalidate action="/restaurants">
+  <form (ngSubmit)="loginUser()" [formGroup]="logForm" class="form-signin" id="form-login" method="POST" action="#">
     <h1 class="h3 mb-3 font-weight-normal">Please log in</h1>
     <label for="inputEmail" class="sr-only">Email address</label>
-    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+    <input
+      type="email"
+      id="inputEmail"
+      class="form-control"
+      placeholder="Email address"
+      formControlName="email"
+      [ngClass]="validClasses(emailControl,'is-valid','is-invalid')">
+    <div *ngIf="emailControl.errors?.['required'] && emailControl.touched"
+      class="invalid-feedback">Email is required.</div>
     <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+    <input
+      type="password"
+      id="inputPassword"
+      class="form-control"
+      placeholder="Password"
+      formControlName="password"
+      [ngClass]="validClasses(passwordControl,'is-valid','is-invalid')">
+    <div *ngIf="passwordControl.errors?.['required'] && passwordControl.touched"
+     class="invalid-feedback">Password is required.</div>
     <button class="btn btn-lg btn-primary btn-block" type="submit">log in</button>
   </form>
 </div>

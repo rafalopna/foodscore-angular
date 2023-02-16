@@ -9,5 +9,6 @@ bootstrapApplication(AppComponent,{
   providers: [
     provideRouter(APP_ROUTES),
     provideHttpClient(withInterceptors([baseUrlInterceptor]))
+
   ],
 }).catch((e) => console.error(e));
