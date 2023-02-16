@@ -5,6 +5,8 @@ import { OneCheckedDirective } from 'src/app/shared/validators/one-checked.direc
 import { UserLogin } from '../interfaces/user';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from '../services/auth-service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'fs-login-page',
@@ -13,12 +15,15 @@ import { AuthService } from '../services/auth-service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    OneCheckedDirective
+    OneCheckedDirective,
+    FontAwesomeModule
   ],
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.css']
 })
 export class LoginPageComponent implements OnInit{
+
+  google = faGoogle;
 
   user!: UserLogin;
 
@@ -89,6 +94,13 @@ export class LoginPageComponent implements OnInit{
       }
     })
   }
+
+  loggedGoogle(user: gapi.auth2.GoogleUser) {
+    console.log(user.getAuthResponse().id_token);
+    console.log(user.getBasicProfile().getName());
+    console.log(user.getBasicProfile().getEmail());
+    console.log(user.getBasicProfile().getImageUrl());
+    }
 
   validClasses(control: FormControl, validClass: string, errorClass: string) {
     return {
