@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Inject, Injectable, Optional } from '@angular/core';
 import { catchError, Observable, Observer, ReplaySubject } from 'rxjs';
 import { FBConfig, FB_CONFIG } from './facebook-login.config';
@@ -26,7 +27,7 @@ export class LoadFbApiService {
 
   login(scopes: string): Observable<fb.StatusResponse> {
     return this.isLogged().pipe(
-      catchError(response => {
+      catchError(() => {
         return new Observable((observer: Observer<fb.StatusResponse>) => {
           FB.login((respLogin: fb.StatusResponse) => {
             if(respLogin.status === 'connected') {
@@ -56,7 +57,7 @@ export class LoadFbApiService {
 
   logout(): Observable<void> {
     return new Observable((observer: Observer<void>) => {
-      FB.logout(response => {
+      FB.logout(() => {
         observer.next();
         observer.complete();
       });
