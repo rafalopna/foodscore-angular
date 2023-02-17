@@ -2,9 +2,9 @@
   <form class="container-fluid justify-content-start">
     <a class="navbar-brand" href="#">Exercise 13</a>
     <a class="btn btn-outline-success me-2" [routerLink]="['/restaurants']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Main button</a>
-    <a class="btn btn-outline-success me-2" [routerLink]="['/restaurants/add']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">New Restaurant</a>
-    <a class="btn btn-outline-success me-2" [routerLink]="['/auth/login']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Login</a>
-    <a class="btn btn-outline-success me-2" (click)="logout()" >Logout</a>
-    <a class="btn btn-outline-success me-2" [routerLink]="['/auth/register']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Register</a>
+    <a *ngIf="isLogged" class="btn btn-outline-success me-2" [routerLink]="['/restaurants/add']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">New Restaurant</a>
+    <a *ngIf="!isLogged" class="btn btn-outline-success me-2" [routerLink]="['/auth/login']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Login</a>
+    <a *ngIf="!isLogged" class="btn btn-outline-success me-2" [routerLink]="['/auth/register']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Register</a>
+    <a *ngIf="isLogged" class="btn btn-outline-success me-2" (click)="logout()">Logout</a>
   </form>
 </nav>

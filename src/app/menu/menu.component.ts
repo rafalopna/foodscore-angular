@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import Swal from 'sweetalert2';
+import { AuthService } from '../auth/services/auth-service';
 
 @Component({
   selector: 'fs-menu',
@@ -12,20 +12,20 @@ import Swal from 'sweetalert2';
 })
 export class MenuComponent {
 
+  isLogged: boolean = false;
+
   constructor(
-    private router: Router
-  ){}
+    private router: Router,
+    private authService: AuthService
+  ){
+    this.authService.loginChange$.subscribe(userLogged => {
+      this.isLogged = userLogged;
+    });
+  }
 
   logout() {
-    localStorage.removeItem('access_token');
-
-    Swal.fire({
-          icon: 'success',
-          title: 'Great!',
-          text: 'You are logout!'
-        }).then(() => {
-          this.router.navigate(['/']);
-        })
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 
 }
