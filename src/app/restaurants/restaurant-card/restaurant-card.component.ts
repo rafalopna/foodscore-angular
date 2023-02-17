@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Restaurant } from '../interfaces/restaurant';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'fs-restaurant-card',
@@ -27,5 +28,21 @@ export class RestaurantCardComponent {
 
   deleteRestaurant() {
     this.deleted.emit();
+  }
+
+  confirmDeleted() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleted.emit();
+      }
+    })
   }
 }

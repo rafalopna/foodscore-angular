@@ -3,7 +3,7 @@
   <div class="card h-100 shadow">
     <img class="card-img-top" [src]="restaurant.image" [routerLink]="['/restaurants', restaurant.id]" routerLinkActive="router-link-active"  >
     <div class="card-body">
-      <button class="btn btn-danger btn-sm float-end" (click)="deleteRestaurant()" onclick="return confirm('Are you sure?')">Delete</button>
+      <button class="btn btn-danger btn-sm float-end" (click)="confirmDeleted()">Delete</button>
       <h4 class="card-title">
         <span *ngIf="isDetail; then thenBlock else elseBlock"></span>
       </h4>

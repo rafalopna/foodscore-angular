@@ -66,7 +66,7 @@ export class RestaurantsPageComponent implements OnInit{
         Swal.fire({
           icon: 'error',
           title: 'Ooops...',
-          text: error
+          text: error.error.message
         })
       }
     });

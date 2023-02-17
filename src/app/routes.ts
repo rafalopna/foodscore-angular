@@ -7,7 +7,8 @@ export const APP_ROUTES: Routes = [
     ),
   },
   {
-    path: 'auth', loadChildren: () =>
+    path: 'auth',
+    loadChildren: () =>
       import('./auth/routes').then(m =>
         m.LOGIN_ROUTES)
   },

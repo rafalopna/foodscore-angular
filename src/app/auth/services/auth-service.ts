@@ -1,5 +1,4 @@
 import { HttpClient } from "@angular/common/http";
-import { Token } from "@angular/compiler";
 import { Injectable } from "@angular/core";
 import { map, Observable, of, ReplaySubject, tap } from "rxjs";
 import { TokenResponse, UserResponse } from "../interfaces/responses";
