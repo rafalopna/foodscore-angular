@@ -1,11 +1,6 @@
 import { Routes } from "@angular/router";
 
 export const APP_ROUTES: Routes = [
-  { path: 'maps', loadComponent: () =>
-    import('./maps/arcgis-map/arcgis-map.component').then((m) =>
-    m.ArcgisMapComponent
-    ),
-  },
   {
     path: 'auth',
     loadChildren: () =>
@@ -15,6 +10,11 @@ export const APP_ROUTES: Routes = [
   { path: 'restaurants', loadChildren: () =>
       import('./restaurants/routes').then(m =>
         m.RESTAURANT_ROUTES)
+  },
+  {
+    path: 'users', loadChildren: () =>
+      import('./users/routes').then(m =>
+        m.USERS_ROUTES)
   },
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/auth/login', pathMatch: 'full' },

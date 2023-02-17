@@ -12,7 +12,7 @@ import { AuthService } from '../auth/services/auth-service';
 })
 export class MenuComponent {
 
-  isLogged: boolean = false;
+  isLogged = false;
 
   constructor(
     private router: Router,
