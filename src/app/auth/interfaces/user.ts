@@ -4,8 +4,8 @@ export interface User {
   email: string;
   password?: string;
   avatar: string;
-  lat: number;
-  lng: number;
+  lat?: number;
+  lng?: number;
   me?: boolean;
 }
 
@@ -14,4 +14,10 @@ export interface UserLogin {
   password: string;
   lat?: number;
   lng?: number;
+}
+
+export interface UserSocialLogin {
+  token: string,
+  lat?: number,
+  lng?: number
 }

@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { TokenResponse, UserResponse } from "../interfaces/responses";
-import { User, UserLogin } from "../interfaces/user";
+import { User, UserLogin, UserSocialLogin } from "../interfaces/user";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,30 @@ export class AuthService {
   login(user: UserLogin): Observable<TokenResponse> {
     return this.http.post<TokenResponse>(this.userURL + '/login', user)
     .pipe(
-      map(response => response)
+      map(response => {
+        localStorage.setItem('access_token',response.accessToken);
+        return response;
+      })
+    );
+  }
+
+  loginGoogle(user: UserSocialLogin): Observable<TokenResponse> {
+    return this.http.post<TokenResponse>(this.userURL + '/google', user)
+    .pipe(
+      map(response => {
+        localStorage.setItem('access_token',response.accessToken);
+        return response;
+      })
+    );
+  }
+
+  loginFacebook(user: UserSocialLogin): Observable<TokenResponse> {
+    return this.http.post<TokenResponse>(this.userURL + '/facebook', user)
+    .pipe(
+      map(response => {
+        localStorage.setItem('access_token',response.accessToken);
+        return response;
+      })
     );
   }
 
@@ -26,4 +49,6 @@ export class AuthService {
       map(response => response.user)
     );
   }
+
+
 }

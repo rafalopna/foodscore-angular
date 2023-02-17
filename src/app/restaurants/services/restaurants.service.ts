@@ -11,7 +11,7 @@ export class RestaurantsService {
 
   private restaurantURL = 'restaurants';
 
-  constructor(private readonly http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   getRestaurants(): Observable<Restaurant[]> {
     return this.http.get<RestaurantsResponse>(this.restaurantURL)

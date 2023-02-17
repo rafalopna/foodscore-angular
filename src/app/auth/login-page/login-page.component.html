@@ -37,3 +37,10 @@
     </button>
   </div>
 </div>
+
+<div class="text-center mt-4">
+  <arcgis-map [coords]="[longitude, latitude]">
+      <arcgis-marker [coords]="[longitude, latitude]" color="red" ></arcgis-marker>
+      <arcgis-search position="top-right" (result)="searchResult($event)" ></arcgis-search>
+  </arcgis-map>
+</div>

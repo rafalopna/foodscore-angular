@@ -31,8 +31,8 @@ export class RegisterComponent implements OnInit{
   emailControl!: FormControl<string>;
   email2Control!: FormControl<string>;
   passwordControl!: FormControl<string>;
-  latControl!: FormControl<number>;
-  lngControl!: FormControl<number>;
+  latControl!: FormControl<number | undefined>;
+  lngControl!: FormControl<number | undefined>;
   imageControl!: FormControl<string>;
 
   constructor(
@@ -42,8 +42,6 @@ export class RegisterComponent implements OnInit{
     private fb: NonNullableFormBuilder
   ){
     this.resetUser();
-    this.newUser.lat = 0.372453452;
-    this.newUser.lng = -0.6553454;
   }
 
   ngOnInit(): void {
@@ -70,14 +68,18 @@ export class RegisterComponent implements OnInit{
       Validators.required
     ])
 
-    this.latControl = this.fb.control(0, [
+    this.latControl = this.fb.control(undefined, [
       Validators.required
     ])
 
-    this.lngControl = this.fb.control(0, [
+    this.lngControl = this.fb.control(undefined, [
       Validators.required
     ])
 
+    navigator.geolocation.getCurrentPosition(pos => {
+      this.latControl.setValue(pos.coords.latitude);
+      this.lngControl.setValue(pos.coords.longitude);
+    });
 
     this.regForm = this.fb.group({
       name: this.nameControl,
@@ -95,9 +97,7 @@ export class RegisterComponent implements OnInit{
       name: '',
       email: '',
       password: '',
-      avatar: '',
-      lat: 0,
-      lng: 0
+      avatar: ''
     };
   }
 
@@ -105,6 +105,8 @@ export class RegisterComponent implements OnInit{
     this.newUser.name = this.nameControl.value;
     this.newUser.email = this.emailControl.value;
     this.newUser.password = this.passwordControl.value;
+    this.newUser.lat = this.latControl.value;
+    this.newUser.lng = this.lngControl.value;
 
     this.authService.addNewUser(this.newUser)
     .subscribe({
@@ -112,11 +114,12 @@ export class RegisterComponent implements OnInit{
         this.saved = true;
         this.resetUser();
         //this.imageName = '';
-        this.router.navigate(['/login']);
         Swal.fire({
           icon: 'success',
           title: 'Great!',
           text: 'User registered'
+        }).then(() => {
+          this.router.navigate(['/login']);
         })
       },
       error: error => {

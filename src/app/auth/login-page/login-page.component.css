@@ -38,3 +38,8 @@
   clip-path: inset(50%);
   border: 0;
 }
+
+arcgis-map {
+  height: 400px;
+  width: 100%;
+}
