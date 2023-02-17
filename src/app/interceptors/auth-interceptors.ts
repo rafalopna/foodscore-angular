@@ -9,7 +9,5 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         Authorization: token ? `Bearer ${token}` : ''
       }
     });
-
-    console.log("TOKEN :  " + token);
     return next(reqClone);
 };

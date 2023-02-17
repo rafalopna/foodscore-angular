@@ -160,7 +160,6 @@ export class LoginPageComponent implements OnInit{
   }
 
   loggedFacebook(resp: fb.StatusResponse) {
-    console.log(resp.authResponse.accessToken);
     this.userSocial.token = resp.authResponse.accessToken;
     this.userSocial.lat = this.latControl.value;
     this.userSocial.lng = this.lngControl.value;
