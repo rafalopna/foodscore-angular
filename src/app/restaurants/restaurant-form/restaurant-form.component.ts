@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { RestaurantsService } from '../services/restaurants.service';
 import Swal from 'sweetalert2';
 import { OneCheckedDirective } from 'src/app/shared/validators/one-checked.directive';
+import { User } from 'src/app/auth/interfaces/user';
+import { UserService } from 'src/app/users/services/user.service';
 
 @Component({
   selector: 'fs-restaurant-form',
@@ -28,6 +30,7 @@ export class RestaurantFormComponent implements OnInit {
   weekDay: number = this.days.indexOf(this.today);
   imageName = '';
   newRestaurant!: Restaurant;
+  userCreator!: User;
   saved = false;
   confirmed = false;
 
@@ -43,6 +46,7 @@ export class RestaurantFormComponent implements OnInit {
     private titleService: Title,
     private router: Router,
     private restaurantService: RestaurantsService,
+    private userService: UserService,
     private fb: NonNullableFormBuilder
     ) {
     this.resetRestaurant();
@@ -51,6 +55,10 @@ export class RestaurantFormComponent implements OnInit {
   ngOnInit(): void {
     this.titleService.setTitle("New Restaurant");
     this.saved = false;
+
+    this.userService.getUser().subscribe((user) => {
+      this.userCreator = user;
+    })
 
     this.nameControl = this.fb.control('', [
       Validators.required,
@@ -108,7 +116,7 @@ export class RestaurantFormComponent implements OnInit {
       address: '',
       lat: 0,
       lng: 0,
-      creator: 0,
+      creator: this.userCreator,
       distance: 0,
       stars: 0,
       mine: false

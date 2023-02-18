@@ -5,6 +5,10 @@ import { Restaurant } from 'src/app/restaurants/interfaces/restaurant';
 import { RestaurantsService } from '../services/restaurants.service';
 import { RestaurantCardComponent } from "../restaurant-card/restaurant-card.component";
 import Swal from 'sweetalert2';
+import { ArcgisMapComponent } from 'src/app/maps/arcgis-map/arcgis-map.component';
+import { ArcgisMarkerDirective } from 'src/app/maps/arcgis-marker/arcgis-marker.directive';
+import { ArcgisSearchDirective } from 'src/app/maps/arcgis-search/arcgis-search.directive';
+
 import { UserService } from 'src/app/users/services/user.service';
 import { User } from 'src/app/auth/interfaces/user';
 
@@ -13,13 +17,20 @@ import { User } from 'src/app/auth/interfaces/user';
     standalone: true,
     templateUrl: './restaurant-details.component.html',
     styleUrls: ['./restaurant-details.component.css'],
-    imports: [CommonModule, RouterLink, RestaurantCardComponent]
+    imports: [
+      CommonModule,
+      RouterLink,
+      RestaurantCardComponent,
+      ArcgisMapComponent,ArcgisMarkerDirective,ArcgisSearchDirective
+    ]
 })
 export class RestaurantDetailsComponent implements OnInit{
 
   restaurant!: Restaurant;
   userRest!: User;
   restaurantDetail = false;
+  latitude!: number;
+  longitude!: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,7 +46,10 @@ export class RestaurantDetailsComponent implements OnInit{
   ngOnInit(): void {
     this.restaurant = this.route.snapshot.data['restaurant'];
 
-    this.userService.getUser(this.restaurant.creator)
+    this.latitude = this.restaurant.lat;
+    this.longitude = this.restaurant.lng;
+
+    this.userService.getUser(this.restaurant.creator.id)
     .subscribe((user) => {
       this.userRest = user;
     })

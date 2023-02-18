@@ -7,3 +7,11 @@ export interface RestaurantsResponse {
 export interface RestaurantResponse {
   restaurant: Restaurant;
 }
+
+export interface CommentsResponse {
+  comments: Comment[];
+}
+
+export interface CommentResponse {
+  comment: Comment
+}

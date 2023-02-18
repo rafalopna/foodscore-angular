@@ -26,12 +26,33 @@ export class RestaurantsService {
     );
   }
 
+  getRestaurantsUser(id: number): Observable<Restaurant[]> {
+    return this.http.get<RestaurantsResponse>(this.restaurantURL + '/user/' + id)
+    .pipe(
+      retry(3),
+      map(response => response.restaurants),
+      catchError((resp: HttpErrorResponse) =>
+        throwError(() =>
+          `Error getting restaurants. Status: ${resp.status}. Message: ${resp.message}`
+        )
+      )
+    );
+  }
+
   getRestaurant(id: number): Observable<Restaurant> {
     return this.http.get<RestaurantResponse>(`${this.restaurantURL}/${id}`)
     .pipe(
       map(response => response.restaurant)
     );
   }
+
+  // getComments(id: number): Observable<Comment[]> {
+
+  //   return this.http.get<CommentsResponse>(`${this.restaurantURL}/${id}/comments`)
+  //   .pipe(
+  //     map(response => response.comments)
+  //   );
+  // }
 
   addRestaurant(rest: Restaurant): Observable<Restaurant> {
     return this.http.post<RestaurantResponse>(this.restaurantURL, rest)
