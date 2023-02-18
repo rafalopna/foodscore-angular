@@ -2,7 +2,8 @@ import { Directive } from '@angular/core';
 import { FormGroup, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
 @Directive({
-  selector: '[foneChecked]',
+  // eslint-disable-next-line @angular-eslint/directive-selector
+  selector: '[fsoneChecked]',
   standalone: true,
   providers: [{provide: NG_VALIDATORS, useExisting: OneCheckedDirective, multi:true}]
 })

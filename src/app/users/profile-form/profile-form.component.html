@@ -1,0 +1,83 @@
+<div class="container">
+
+  <form action="#" (ngSubmit)="updateProfile()" [formGroup]="profileForm" id="profileData" class="mt-4" method="POST" role="form">
+    <legend>Edit profile</legend>
+    <div class="form-group">
+      <label for="correo">Email:</label>
+      <input
+        type="email"
+        class="form-control"
+        name="email"
+        placeholder="Email"
+        formControlName="email"
+        [ngClass]="validClasses(emailControl, 'is-valid','is-invalid')"/>
+      <div *ngIf="emailControl.errors?.['required'] && emailControl.touched"
+        class="invalid-feedback">The email is required.</div>
+      <label for="name">Name:</label>
+      <input
+        type="text"
+        class="form-control"
+        name="nameUser"
+        id="name"
+        placeholder="Name"
+        formControlName="name"
+        [ngClass]="validClasses(nameControl, 'is-valid','is-invalid')"/>
+      <div *ngIf="nameControl.errors?.['required'] && nameControl.touched"
+        class="invalid-feedback">The name is required.</div>
+    </div>
+    <button type="submit" [disabled]="profileForm.disable" class="btn btn-primary mt-2">Edit profile</button>
+  </form>
+
+  <form action="#" (ngSubmit)="updateAvatar()" [formGroup]="avatarForm"  id="profileAvatar" class="mt-4" method="POST" role="form">
+    <div class="form-group mt-2">
+      <label for="image">Photo Avatar</label>
+      <input
+        type="file"
+        #fileImage
+        class="form-control"
+        id="image"
+        name="image"
+        (change)="changeImage(fileImage)"
+        formControlName="imageForm"
+        [ngClass]="validClasses(avatarControl,'is-valid','is-invalid')">
+      <div class="invalid-feedback">An image is required.</div>
+    </div>
+    <img [src]="profileAvatar.avatar" [ngClass]="{'d-none': !profileAvatar.avatar}" alt=""
+      id="imgPreview" class="img-thumbnail mb-3">
+    <button type="submit" [disabled]="avatarForm.invalid || !this.newImage" class="btn btn-primary mt-2">Edit photo</button>
+  </form>
+
+  <form action="#" (ngSubmit)="updatPassword()" [formGroup]="passwordForm"  id="profilePassword" class="mt-4" method="POST" role="form">
+    <legend>Edit password</legend>
+
+    <div class="form-group">
+      <input
+        type="password"
+        class="form-control mg-2"
+        name="password1"
+        formControlName="password1"
+        [ngClass]="validClasses(pass1Control,'is-valid','is-invalid')"
+        placeholder="Password" />
+      <div *ngIf="pass1Control.errors?.['required'] && pass1Control.touched"
+        class="invalid-feedback">Password is required.</div>
+      <div *ngIf="pass1Control.errors?.['minlength'] && pass1Control.touched"
+        class="invalid-feedback">Password cannot be less than 4 characters.</div>
+      <input
+        type="password"
+        class="form-control mt-2"
+        name="password2"
+        formControlName="password2"
+        [ngClass]="validClasses(pass2Control,'is-valid','is-invalid')"
+        placeholder="Repeat password" />
+      <div *ngIf="pass2Control.errors?.['required'] && pass2Control.touched"
+        class="invalid-feedback">Password is required.</div>
+      <div *ngIf="pass2Control.errors?.['minlength'] && pass2Control.touched"
+        class="invalid-feedback">Password cannot be less than 4 characters.</div>
+      <div *ngIf="passwordForm.hasError('passwordMatch')" class="invalid-feedback">
+        Passwords do not match
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Edit password</button>
+  </form>
+
+</div>
