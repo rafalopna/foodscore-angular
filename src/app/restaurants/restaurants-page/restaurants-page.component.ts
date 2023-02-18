@@ -9,6 +9,8 @@ import { Title } from '@angular/platform-browser';
 import { RestaurantsService } from '../services/restaurants.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from 'src/app/users/services/user.service';
+import { User } from 'src/app/auth/interfaces/user';
 
 
 @Component({
@@ -28,10 +30,12 @@ export class RestaurantsPageComponent implements OnInit{
 
   restaurants: Restaurant[] = [];
   creatorId!: number;
+  creatorUser!: User;
 
   constructor(
     private titleService: Title,
     private readonly restaurantsService: RestaurantsService,
+    private readonly userService: UserService,
     private router: Router,
     private route: ActivatedRoute
     ) { }
@@ -43,6 +47,12 @@ export class RestaurantsPageComponent implements OnInit{
 
     if (this.creatorId !== undefined)
     {
+      this.userService.getUser(this.creatorId)
+      .subscribe((user) => {
+        this.creatorUser = user;
+
+      })
+      ;
       this.restaurantsService.getRestaurantsUser(this.creatorId)
       .subscribe({
         next: rests => this.restaurants = rests,

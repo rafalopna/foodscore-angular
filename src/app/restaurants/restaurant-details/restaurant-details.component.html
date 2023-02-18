@@ -20,7 +20,7 @@
       <div>
         <div>
           <strong id="creatorName">
-            <a [routerLink]="['/restaurants']" [queryParams]="{ creator: userRest.id }">{{ userRest.name }}</a>
+            <a [routerLink]="['/users', userRest.id]">{{ userRest.name }}</a>
           </strong>
         </div>
         <div><small id="creatorEmail">{{ userRest.email }}</small></div>
