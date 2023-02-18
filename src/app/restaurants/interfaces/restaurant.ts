@@ -6,4 +6,11 @@ export interface Restaurant {
   description: string;
   phone: string;
   daysOpen: string[];
+  address: string;
+  lat: number;
+  lng: number;
+  stars: number;
+  creator: number;
+  distance: number;
+  mine: boolean;
 }

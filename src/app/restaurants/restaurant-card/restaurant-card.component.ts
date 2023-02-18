@@ -25,7 +25,6 @@ export class RestaurantCardComponent {
 
   @Output() deleted = new EventEmitter<void>();
 
-
   deleteRestaurant() {
     this.deleted.emit();
   }

@@ -104,7 +104,14 @@ export class RestaurantFormComponent implements OnInit {
       cuisine: '',
       description: '',
       phone: '',
-      daysOpen: []
+      daysOpen: [],
+      address: '',
+      lat: 0,
+      lng: 0,
+      creator: 0,
+      distance: 0,
+      stars: 0,
+      mine: false
     };
     this.daysOpen = (new Array(7)).fill(true);
   }

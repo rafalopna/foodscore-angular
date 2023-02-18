@@ -5,6 +5,8 @@ import { Restaurant } from 'src/app/restaurants/interfaces/restaurant';
 import { RestaurantsService } from '../services/restaurants.service';
 import { RestaurantCardComponent } from "../restaurant-card/restaurant-card.component";
 import Swal from 'sweetalert2';
+import { UserService } from 'src/app/users/services/user.service';
+import { User } from 'src/app/auth/interfaces/user';
 
 @Component({
     selector: 'fs-restaurant-details',
@@ -16,11 +18,13 @@ import Swal from 'sweetalert2';
 export class RestaurantDetailsComponent implements OnInit{
 
   restaurant!: Restaurant;
+  userRest!: User;
   restaurantDetail = false;
 
   constructor(
     private route: ActivatedRoute,
     private restaurantsService: RestaurantsService,
+    private userService: UserService,
     private router: Router
   ) {  }
 
@@ -30,6 +34,12 @@ export class RestaurantDetailsComponent implements OnInit{
 
   ngOnInit(): void {
     this.restaurant = this.route.snapshot.data['restaurant'];
+
+    this.userService.getUser(this.restaurant.creator)
+    .subscribe((user) => {
+      this.userRest = user;
+    })
+
   }
 
   onDeleted(restaurant: Restaurant) {
