@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { OneCheckedDirective } from 'src/app/shared/validators/one-checked.directive';
+import { emailMatchValidator } from '../validators/email-match.validator';
 import { AuthService } from '../services/auth-service';
 import Swal from 'sweetalert2';
 import { User } from '../interfaces/user';
@@ -61,7 +62,8 @@ export class RegisterComponent implements OnInit{
     ]);
 
     this.passwordControl = this.fb.control('', [
-      Validators.required
+      Validators.required,
+      Validators.minLength(4)
     ])
 
     this.imageControl = this.fb.control('', [
@@ -89,6 +91,8 @@ export class RegisterComponent implements OnInit{
       lat: this.latControl,
       lng: this.lngControl,
       avatar: this.imageControl
+    }, {
+      validators: emailMatchValidator
     })
   }
 

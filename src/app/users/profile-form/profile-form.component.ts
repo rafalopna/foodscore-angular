@@ -8,7 +8,7 @@ import { FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFo
 import { ProfileAvatar, ProfileData, ProfilePassword } from '../interfaces/profile';
 import Swal from 'sweetalert2';
 import { OneCheckedDirective } from 'src/app/shared/validators/one-checked.directive';
-import { passwordMatchValidator } from 'src/app/shared/validators/password-match.validator';
+import { passwordMatchValidator } from 'src/app/users/validators/password-match.validator';
 
 @Component({
   selector: 'fs-profile-form',

@@ -38,6 +38,9 @@
       [ngClass]="validClasses(email2Control,'is-valid','is-invalid')"/>
     <div *ngIf="email2Control.errors?.['required'] && email2Control.touched"
       class="invalid-feedback">Email repeat is required.</div>
+    <div *ngIf="regForm.hasError('emailMatch')" class="invalid-feedback">
+      Emails do not match
+    </div>
   </div>
   <div class="mb-3">
     <label for="password">Password:</label>
@@ -51,6 +54,8 @@
       [ngClass]="validClasses(passwordControl,'is-valid','is-invalid')" />
     <div *ngIf="passwordControl.errors?.['required'] && passwordControl.touched"
       class="invalid-feedback">Password is required.</div>
+    <div *ngIf="passwordControl.errors?.['minlength'] && passwordControl.touched"
+    class="invalid-feedback">Password cannot be less than 4 characters.</div>
   </div>
   <div class="form-row">
     <div class="mb-3 col">
