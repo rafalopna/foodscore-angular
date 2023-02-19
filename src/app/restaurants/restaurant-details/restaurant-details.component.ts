@@ -42,6 +42,8 @@ export class RestaurantDetailsComponent implements OnInit{
   scoreSelected!: number;
   score!: number;
   newComment!: CommentRest;
+  userLogged!: User;
+  isCommented = false;
 
   commentForm!: FormGroup;
   commentControl!: FormControl<string>;
@@ -70,11 +72,18 @@ export class RestaurantDetailsComponent implements OnInit{
       this.userRest = user;
     });
 
+    this.userService.getUser()
+    .subscribe((user) => {
+      this.userLogged = user;
+    });
+
     this.restaurantsService.getComments(this.restaurant.id as number)
     .subscribe({
       next: commts => this.commentsRest = commts,
       error: error => console.error(error)
     });
+
+    this.isCommented = this.commentsRest.some(u => u.user?.id === this.userLogged.id )
 
     this.commentControl = this.fb.control('', [
       Validators.required
@@ -145,7 +154,9 @@ export class RestaurantDetailsComponent implements OnInit{
   }
 
   getStarRating(stars: number): string {
-    return '★'.repeat(stars);
+    const resStart = 5 - stars;
+
+    return '★'.repeat(stars) + '☆'.repeat(resStart);
   }
 
 }

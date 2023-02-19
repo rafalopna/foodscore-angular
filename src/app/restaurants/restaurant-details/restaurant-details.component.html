@@ -50,15 +50,14 @@
             <div>
               {{ getStarRating(restaurant.stars) }}
             </div>
-            <small>03/10/2018 15:26:24</small>
+            <small>{{ c.date | date:'fullDate' }}</small>
           </div>
         </li>
       </ul>
     </div>
-
   </div>
 
-  <div class="card mt-4" id="write-comments">
+  <div class="card mt-4" id="write-comments" *ngIf="isCommented">
     <div class="card-header bg-primary text-white">
       <form class="mt-4" id="commentForm"
         (ngSubmit)="addComment()"
