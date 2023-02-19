@@ -43,7 +43,8 @@ export class RestaurantDetailsComponent implements OnInit{
   score!: number;
   newComment!: CommentRest;
   userLogged!: User;
-  isCommented = false;
+  comm!: CommentRest;
+  showFormCommented = true;
 
   commentForm!: FormGroup;
   commentControl!: FormControl<string>;
@@ -67,23 +68,26 @@ export class RestaurantDetailsComponent implements OnInit{
     this.latitude = this.restaurant.lat;
     this.longitude = this.restaurant.lng;
 
-    this.userService.getUser(this.restaurant.creator?.id)
-    .subscribe((user) => {
-      this.userRest = user;
-    });
-
-    this.userService.getUser()
-    .subscribe((user) => {
-      this.userLogged = user;
-    });
-
     this.restaurantsService.getComments(this.restaurant.id as number)
     .subscribe({
-      next: commts => this.commentsRest = commts,
+      next: commts => {
+        this.commentsRest = commts;
+        this.userService.getUser()
+          .subscribe({
+            next: u => {
+              this.userLogged = u;
+              for(const c of this.commentsRest){
+                if (c.user?.id == this.userLogged.id) {
+                  this.showFormCommented = false;
+                  return;
+                }
+              }
+            },
+            error: error => console.error(error)
+          });
+      },
       error: error => console.error(error)
     });
-
-    this.isCommented = this.commentsRest.some(u => u.user?.id === this.userLogged.id )
 
     this.commentControl = this.fb.control('', [
       Validators.required
@@ -111,9 +115,7 @@ export class RestaurantDetailsComponent implements OnInit{
       next: () => {
         this.saved = true;
         this.resetComment();
-        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          this.router.navigate([this.router.url]);
-    });
+        this.router.navigate([this.router.url]);
         Swal.fire({
           icon: 'success',
           title: 'Great!',

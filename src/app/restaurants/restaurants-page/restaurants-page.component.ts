@@ -82,7 +82,7 @@ export class RestaurantsPageComponent implements OnInit{
           title: 'Success!',
           text: 'Restaurant removed'
         }).then(() => {
-          window.location.reload();
+          this.router.navigate([this.router.url]);
         });
       },
       error: error => {
