@@ -49,7 +49,7 @@ export class RestaurantDetailsComponent implements OnInit{
     this.latitude = this.restaurant.lat;
     this.longitude = this.restaurant.lng;
 
-    this.userService.getUser(this.restaurant.creator.id)
+    this.userService.getUser(this.restaurant.creator?.id)
     .subscribe((user) => {
       this.userRest = user;
     })

@@ -26,7 +26,7 @@
       </nav>
     </div>
 
-    <h2 class="alert alert-primary" role="alert">List of restaurants created by {{ creatorUser.name }}</h2>
+    <h2 *ngIf="creatorId" class="alert alert-primary" role="alert">List of restaurants created by {{ creatorUser.name }}</h2>
 
     <div id="placesContainer" class="mb-4 mt-2 row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4" *ngIf="restaurants && restaurants.length; else noRestaurants">
       <fs-restaurant-card [restaurant]="restaurant" *ngFor="let restaurant of restaurants | restaurantFilter : filterSearch : onlyOpen" (deleted)="onDeleted(restaurant)" ></fs-restaurant-card>

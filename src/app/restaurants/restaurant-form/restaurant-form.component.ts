@@ -9,6 +9,10 @@ import Swal from 'sweetalert2';
 import { OneCheckedDirective } from 'src/app/shared/validators/one-checked.directive';
 import { User } from 'src/app/auth/interfaces/user';
 import { UserService } from 'src/app/users/services/user.service';
+import { ArcgisMapComponent } from 'src/app/maps/arcgis-map/arcgis-map.component';
+import { ArcgisMarkerDirective } from 'src/app/maps/arcgis-marker/arcgis-marker.directive';
+import { ArcgisSearchDirective } from 'src/app/maps/arcgis-search/arcgis-search.directive';
+import { SearchResult } from 'src/app/maps/interfaces/search-result';
 
 @Component({
   selector: 'fs-restaurant-form',
@@ -17,7 +21,8 @@ import { UserService } from 'src/app/users/services/user.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    OneCheckedDirective
+    OneCheckedDirective,
+    ArcgisMapComponent,ArcgisMarkerDirective,ArcgisSearchDirective
   ],
   templateUrl: './restaurant-form.component.html',
   styleUrls: ['./restaurant-form.component.css']
@@ -33,6 +38,9 @@ export class RestaurantFormComponent implements OnInit {
   userCreator!: User;
   saved = false;
   confirmed = false;
+  addres!: string;
+  latitude!: number;
+  longitude!: number;
 
   restForm!: FormGroup;
   nameControl!: FormControl<string>;
@@ -41,6 +49,7 @@ export class RestaurantFormComponent implements OnInit {
   daysControl!: FormArray;
   phoneControl!: FormControl<string>;
   imageControl!: FormControl<string>;
+  addressControl!: FormControl<string>;
 
   constructor(
     private titleService: Title,
@@ -56,9 +65,14 @@ export class RestaurantFormComponent implements OnInit {
     this.titleService.setTitle("New Restaurant");
     this.saved = false;
 
+    navigator.geolocation.getCurrentPosition(pos => {
+      this.latitude = pos.coords.latitude;
+      this.longitude = pos.coords.longitude;
+    });
+
     this.userService.getUser().subscribe((user) => {
       this.userCreator = user;
-    })
+    });
 
     this.nameControl = this.fb.control('', [
       Validators.required,
@@ -80,6 +94,9 @@ export class RestaurantFormComponent implements OnInit {
     this.imageControl = this.fb.control('', [
       Validators.required
     ]);
+    this.addressControl = this.fb.control('', [
+      Validators.required
+    ])
 
     for(let i=0; i<7;i++){
       this.daysControl.push(this.fb.control(false));
@@ -92,8 +109,8 @@ export class RestaurantFormComponent implements OnInit {
       daysForm: this.daysControl,
       phoneForm: this.phoneControl,
       imageForm: this.imageControl,
+      address: this.addressControl
     })
-
   }
 
   canDeactivate() {
@@ -148,6 +165,9 @@ export class RestaurantFormComponent implements OnInit {
     this.newRestaurant.daysOpen = this.newRestaurant.daysOpen.map((open,i) =>
       open ? String(i) : '').filter(day => day !== '');
     this.newRestaurant.phone = this.phoneControl.value;
+    this.newRestaurant.address = this.addressControl.value;
+    this.newRestaurant.lat = this.latitude;
+    this.newRestaurant.lng = this.longitude;
     this.restaurantService.addRestaurant(this.newRestaurant)
     .subscribe({
       next: () => {
@@ -171,10 +191,9 @@ export class RestaurantFormComponent implements OnInit {
     });
   }
 
-  validClasses(control: FormControl, validClass: string, errorClass: string) {
-    return {
-      [validClass]: control.touched && control.valid,
-      [errorClass]: control.touched && control.invalid
-    };
+  searchResult (result: SearchResult) {
+    this.addressControl.setValue(result.address);
+    this.latitude = result.latitude;
+    this.longitude = result.longitude;
   }
 }
