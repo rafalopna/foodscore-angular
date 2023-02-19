@@ -196,4 +196,11 @@ export class RestaurantFormComponent implements OnInit {
     this.latitude = result.latitude;
     this.longitude = result.longitude;
   }
+
+  validClasses(control: FormControl, validClass: string, errorClass: string) {
+    return {
+      [validClass]: control.touched && control.valid,
+      [errorClass]: control.touched && control.invalid
+    };
+  }
 }

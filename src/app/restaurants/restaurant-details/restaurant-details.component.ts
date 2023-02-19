@@ -92,7 +92,6 @@ export class RestaurantDetailsComponent implements OnInit{
     this.commentForm = this.fb.group({
       textForm: this.commentControl
     })
-
   }
 
   resetComment() {

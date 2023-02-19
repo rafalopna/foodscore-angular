@@ -7,7 +7,8 @@
           class="form-control"
           name="name"
           placeholder="Enter name"
-          formControlName="nameForm">
+          formControlName="nameForm"
+          [ngClass]="validClasses(nameControl,'is-valid','is-invalid')">
         <div *ngIf="nameControl.errors?.['required'] && nameControl.touched"
           class="invalid-feedback">The name is required.</div>
         <div *ngIf="nameControl.errors?.['pattern'] && nameControl.touched"
@@ -21,8 +22,10 @@
           name="description" rows="3"
           placeholder="Description"
           formControlName="descForm"
+          [ngClass]="validClasses(descControl,'is-valid','is-invalid')"
           ></textarea>
-        <div class="invalid-feedback">Description is required.</div>
+        <div *ngIf="descControl.errors?.['required'] && descControl.touched"
+         class="invalid-feedback">Description is required.</div>
       </div>
       <div class="mb-3">
         <label for="cuisine">Cuisine</label>
@@ -32,12 +35,15 @@
           name="cuisine"
           id="cuisine"
           placeholder="Cuisine"
-          formControlName="cuisineForm">
+          formControlName="cuisineForm"
+          [ngClass]="validClasses(cuisineControl,'is-valid','is-invalid')">
         <div class="invalid-feedback">Cuisine is required.</div>
       </div>
       <p>Opening days</p>
       <div formArrayName="daysForm" class="mb-3" oneChecked>
-        <div class="form-check form-check-inline" *ngFor="let day of days; let i = index">
+        <div
+          class="form-check form-check-inline"
+          *ngFor="let day of days; let i = index">
           <input
             type="checkbox"
             class="custom-control-input"
@@ -46,8 +52,7 @@
             formControlName="{{i}}">
           <label class="custom-control-label ms-2" for="checkDay{{i}}">{{day}}</label>
         </div>
-        <!--<div class="text-danger" *ngIf="daysControl.hasError('oneCheckedError')">-->
-          <div class="text-danger" *ngIf="daysControl.invalid && daysControl.touched">
+        <div class="invalid-feedback" *ngIf="daysControl.invalid">
           <small>You must choose at least 1 day.</small>
         </div>
       </div>
@@ -60,8 +65,8 @@
           name="phone"
           pattern="(\+?[0-9]2 ?)?[0-9]{9}"
           placeholder="Phone number"
-          formControlName="phoneForm">
-
+          formControlName="phoneForm"
+          [ngClass]="validClasses(phoneControl,'is-valid','is-invalid')">
         <div *ngIf="phoneControl.errors?.['required'] && phoneControl.touched"
           class="invalid-feedback">The phone number is required.</div>
         <div *ngIf="phoneControl.errors?.['pattern'] && phoneControl.touched"
@@ -76,7 +81,8 @@
           id="image"
           name="image"
           (change)="changeImage(fileImage)"
-          formControlName="imageForm">
+          formControlName="imageForm"
+          [ngClass]="validClasses(imageControl,'is-valid','is-invalid')">
         <div class="invalid-feedback">An image is required.</div>
       </div>
       <img [src]="newRestaurant.image" [ngClass]="{'d-none': !newRestaurant.image}" alt="" id="imgPreview" class="img-thumbnail mb-3">
@@ -88,7 +94,10 @@
           id="address"
           name="address"
           readonly
-          formControlName="address">
+          formControlName="address"
+          [ngClass]="validClasses(addressControl,'is-valid','is-invalid')">
+        <div *ngIf="addressControl.errors?.['required'] && addressControl.touched"
+          class="invalid-feedback">The address is required.</div>
       </div>
       <div id="map">
           <arcgis-map [coords]="[longitude, latitude]">
