@@ -1,7 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, retry, throwError } from 'rxjs';
-import { RestaurantResponse, RestaurantsResponse } from '../interfaces/responses';
+import { CommentRest } from '../interfaces/comment';
+import { CommentResponse, CommentsResponse, RestaurantResponse, RestaurantsResponse } from '../interfaces/responses';
 import { Restaurant } from '../interfaces/restaurant';
 
 @Injectable({
@@ -46,18 +47,24 @@ export class RestaurantsService {
     );
   }
 
-  // getComments(id: number): Observable<Comment[]> {
-
-  //   return this.http.get<CommentsResponse>(`${this.restaurantURL}/${id}/comments`)
-  //   .pipe(
-  //     map(response => response.comments)
-  //   );
-  // }
+   getComments(id: number): Observable<CommentRest[]> {
+    return this.http.get<CommentsResponse>(`${this.restaurantURL}/${id}/comments`)
+    .pipe(
+      map(response => response.comments)
+    );
+  }
 
   addRestaurant(rest: Restaurant): Observable<Restaurant> {
     return this.http.post<RestaurantResponse>(this.restaurantURL, rest)
     .pipe(
       map(response => response.restaurant)
+    );
+  }
+
+  addComment(id: number, commentR: CommentRest): Observable<CommentRest> {
+    return this.http.post<CommentResponse>(`${this.restaurantURL}/${id}/comments`, commentR)
+    .pipe(
+      map(response => response.comment)
     );
   }
 

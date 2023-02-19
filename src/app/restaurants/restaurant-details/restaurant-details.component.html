@@ -32,46 +32,23 @@
     <div class="card-header bg-primary text-white">Comments</div>
     <div class="card-body d-flex flex-row">
       <ul class="list-group mt-4 mb-4" id="comments">
-        <li class="list-group-item d-flex flex-row">
+        <li *ngFor="let c of commentsRest" class="list-group-item d-flex flex-row">
           <div>
-            <a href="profile.html?id=1">
-              <img class="rounded-circle me-3" style="width: 40px;" src="http://localhost:3000/img/profile.jpg" alt="">
+            <a [routerLink]="['/users',c.user?.id]">
+              <img class="rounded-circle me-3" style="width: 40px;" [src]="c.user?.avatar" alt="">
             </a>
           </div>
           <div>
             <div>
               <strong>
-                <a href="profile.html?id=1">User's name</a>:
-              </strong>Comment text....
+                <a [routerLink]="['/users',c.user?.id]">{{ c.user?.name }}</a>
+              </strong>
+              <p>
+                {{ c.text }}
+              </p>
             </div>
             <div>
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
-              <span>☆</span>
-            </div>
-            <small>03/10/2018 15:26:24</small>
-          </div>
-        </li>
-        <li class="list-group-item d-flex flex-row">
-          <div>
-            <a href="profile.html?id=1">
-              <img class="rounded-circle me-3" style="width: 40px;" src="http://localhost:3000/img/profile.jpg" alt="">
-            </a>
-          </div>
-          <div>
-            <div>
-              <strong>
-                <a href="profile.html?id=1">User's name</a>:
-              </strong>Comment text....
-            </div>
-            <div>
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
-              <span>☆</span>
+              {{ getStarRating(restaurant.stars) }}
             </div>
             <small>03/10/2018 15:26:24</small>
           </div>
@@ -83,17 +60,23 @@
 
   <div class="card mt-4" id="write-comments">
     <div class="card-header bg-primary text-white">
-      <form class="mt-4" id="commentForm">
+      <form class="mt-4" id="commentForm"
+        (ngSubmit)="addComment()"
+        [formGroup]="commentForm">
         <h4>Write about this restaurant:</h4>
         <div class="form-group">
-          <textarea class="form-control" name="comment" placeholder="Write an opinion"></textarea>
+          <textarea
+            class="form-control"
+            name="comment"
+            placeholder="Write an opinion"
+            formControlName="textForm"></textarea>
+          <div *ngIf="commentControl.errors?.['required'] && commentControl.touched"
+            class="invalid-feedback">Commnent is required</div>
         </div>
         <div id="stars">
-          <span data-score="1">☆</span>
-          <span data-score="2">☆</span>
-          <span data-score="3">☆</span>
-          <span data-score="4">☆</span>
-          <span data-score="5">☆</span>
+          <span *ngFor="let score of [1, 2, 3, 4, 5]"
+                [ngClass]="{'selected': score <= scoreSelected}"
+                (click)="scoreSelected = score" class="star"></span>
         </div>
         <button type="submit" class="btn btn-primary mt-3">Send</button>
       </form>

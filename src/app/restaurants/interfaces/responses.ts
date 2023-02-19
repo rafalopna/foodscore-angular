@@ -1,3 +1,4 @@
+import { CommentRest } from "./comment";
 import { Restaurant } from "./restaurant";
 
 export interface RestaurantsResponse {
@@ -9,9 +10,9 @@ export interface RestaurantResponse {
 }
 
 export interface CommentsResponse {
-  comments: Comment[];
+  comments: CommentRest[];
 }
 
 export interface CommentResponse {
-  comment: Comment
+  comment: CommentRest
 }

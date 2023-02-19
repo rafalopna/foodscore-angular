@@ -51,14 +51,12 @@ export class RestaurantsPageComponent implements OnInit{
       .subscribe((user) => {
         this.creatorUser = user;
 
-      })
-      ;
+      });
       this.restaurantsService.getRestaurantsUser(this.creatorId)
       .subscribe({
         next: rests => this.restaurants = rests,
         error: error => console.error(error)
       });
-
     } else {
       this.restaurantsService.getRestaurants()
       .subscribe({
