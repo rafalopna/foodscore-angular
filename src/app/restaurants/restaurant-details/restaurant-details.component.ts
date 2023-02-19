@@ -108,18 +108,18 @@ export class RestaurantDetailsComponent implements OnInit{
   addComment() {
     this.newComment.text = this.commentControl.value;
     this.newComment.stars = this.scoreSelected;
-    this.score = this.scoreSelected;
 
     this.restaurantsService.addComment(this.restaurant.id as number,this.newComment)
     .subscribe({
       next: () => {
         this.saved = true;
         this.resetComment();
-        this.router.navigate([this.router.url]);
         Swal.fire({
           icon: 'success',
           title: 'Great!',
           text: `Comment added`
+        }).then(() => {
+          this.router.navigate(['/restaurants']);
         })
       },
       error: error => {
