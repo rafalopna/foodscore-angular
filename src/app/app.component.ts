@@ -11,7 +11,7 @@ import { RestaurantsPageComponent } from './restaurants/restaurants-page/restaur
     CommonModule,
     RouterOutlet,
     RestaurantsPageComponent,
-    MenuComponent
+    MenuComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
